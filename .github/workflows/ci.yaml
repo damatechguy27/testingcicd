@@ -8,6 +8,7 @@ on:
 # note variables created at the workflow level can be used by all jobs
 # variables created at the job level can only be use at the job and step levels
 # variables created at the step level can only be used in the step 
+
 env:
     file: dragon
         
@@ -22,7 +23,7 @@ jobs:
           run: sudo apt -y install cowsay
 
         - name: Generate ASCII Artwork
-          run: cowsay -f dragon "This is a ${{env.file}}" >> ${{env}}.file.txt
+          run: cowsay -f dragon "This is a ${{env.file}}" >> ${{env.file}}.txt
 #uploads the dragon file created for the other jobs to download it
         - name: Uploading file
           uses: actions/upload-artifact@v4
