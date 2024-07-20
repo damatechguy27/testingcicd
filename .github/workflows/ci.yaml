@@ -1,13 +1,21 @@
 name: first workflow
 
-on: pull_request
+on: 
+    pull_request:
+        branches: [main]
+
 
 jobs:
     first_job:
+
         name: "My workflow" 
         runs-on: ubuntu-latest
 
         steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+  
+        
         - name: Welcome message
           run: echo "My first github job"
 
@@ -17,6 +25,6 @@ jobs:
         - name: Read file
           run: cat Hello.txt
 
-          
+
 
         
