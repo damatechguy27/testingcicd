@@ -14,17 +14,19 @@ jobs:
         steps:
         - name: Checkout
           uses: actions/checkout@v4
-  
-        
-        - name: Welcome message
-          run: echo "My first github job"
 
-        - name: list files
-          run: ls -la
+          
+        - name: Installing Cowsay
+          run: sudo apt -y install cowsay
 
-        - name: Read file
-          run: cat Hello.txt
+        - name: Generate ASCII Artwork
+          run: cowsay -f dragon "This is a dragon" >> dragon.txt
 
-
+        - name: list and read file
+          run: | 
+            echo "My first github job"
+            ls -al
+            cat Hello.txt 
+            cat dragon.txt
 
         
