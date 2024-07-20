@@ -23,6 +23,7 @@ jobs:
 
     test_job:
         name: "test Job"
+        needs: build_job
         runs-on: ubuntu-latest
 
         steps:        
@@ -33,6 +34,7 @@ jobs:
 
     deploy_job:
         name: "deploy Job"
+        needs: test_job
         runs-on: ubuntu-latest
 
         steps:
