@@ -22,7 +22,7 @@ jobs:
           run: sudo apt -y install cowsay
 
         - name: Generate ASCII Artwork
-          run: cowsay -f dragon "This is a ${{env.file}}" >> ${{env}}.file.txt
+          run: cowsay -f dragon "This is a ${{env.file}}" >> ${{env.file}}.txt
 #uploads the dragon file created for the other jobs to download it
         - name: Uploading file
           uses: actions/upload-artifact@v4
