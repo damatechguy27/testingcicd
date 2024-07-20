@@ -6,27 +6,46 @@ on:
 
         
 jobs:
-    first_job:
+    build_job:
 
-        name: "My workflow" 
+        name: "build job" 
         runs-on: ubuntu-latest
 
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v4
-
-          
+        steps:         
         - name: Installing Cowsay
           run: sudo apt -y install cowsay
 
         - name: Generate ASCII Artwork
           run: cowsay -f dragon "This is a dragon" >> dragon.txt
 
+        - name: Sleep for 30 seconds
+          run: sleep 30
+
+    test_job:
+        name: "test Job"
+        runs-on: ubuntu-latest
+
+        steps:        
+
+        - name: "Test to see file exist"
+          run: grep -i "dragon" dragon.txt
+
+
+    deploy_job:
+        name: "deploy Job"
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        
         - name: list and read file
           run: | 
             echo "My first github job"
             ls -al
             cat Hello.txt 
-            cat dragon.txt
-
+            cat dragon.txt  
         
+
+        - name: "Deploy"
+          run: echo "deploying....."
