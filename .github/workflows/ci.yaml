@@ -1,32 +1,74 @@
 name: first workflow
-
+# only deploys this workflow only on main branch 
 on: 
     pull_request:
         branches: [main]
 
+#practiicing use environment variables
+# note variables created at the workflow level can be used by all jobs
+# variables created at the job level can only be use at the job and step levels
+# variables created at the step level can only be used in the step 
+env:
+    file: dragon
         
 jobs:
-    first_job:
+    build_job:
 
-        name: "My workflow" 
+        name: "build job" 
+        runs-on: ubuntu-latest
+
+        steps:         
+        - name: Installing Cowsay
+          run: sudo apt -y install cowsay
+
+        - name: Generate ASCII Artwork
+          run: cowsay -f dragon "This is a ${{env.file}}" >> ${{env}}.file.txt
+#uploads the dragon file created for the other jobs to download it
+        - name: Uploading file
+          uses: actions/upload-artifact@v4
+          with:
+            name: dragon.txt
+            path: dragon.txt
+
+    test_job:
+        name: "test Job"
+# the need parameter make sure this job does not run before the build-job is complete
+        needs: build_job
+        runs-on: ubuntu-latest
+
+        steps:        
+ # Downloads the dragon file so that dragon file exist so code does not throw an error        
+        - name: Downloading file
+          uses: actions/download-artifact@v4
+          with:
+           name: dragon.txt
+
+        - name: "Test to see file exist"
+          run: grep -i "${{env.file}}" dragon.txt
+ 
+
+    deploy_job:
+        name: "deploy Job"
+# the need parameter make sure this job does not run before the test-job is complete
+        needs: test_job
         runs-on: ubuntu-latest
 
         steps:
         - name: Checkout
           uses: actions/checkout@v4
 
-          
-        - name: Installing Cowsay
-          run: sudo apt -y install cowsay
-
-        - name: Generate ASCII Artwork
-          run: cowsay -f dragon "This is a dragon" >> dragon.txt
+ # Downloads the dragon file so that dragon file exist so code does not throw an error        
+        - name: Downloading file
+          uses: actions/download-artifact@v4
+          with:
+            name: dragon.txt
 
         - name: list and read file
           run: | 
             echo "My first github job"
             ls -al
             cat Hello.txt 
-            cat dragon.txt
-
-        
+            cat dragon.txt  
+  
+        - name: "Deploy"
+          run: echo "deploying....."
