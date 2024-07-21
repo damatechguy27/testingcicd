@@ -5,9 +5,15 @@ name: first workflow
 #        branches: [main]
 
 # allow you to manuelly trigger jobs
+#on: 
+#  workflow_dispatch:
+
+# run automatically after a pull request and allow you to run job manuelly
 on: 
   workflow_dispatch:
-
+  pull_request:
+      branches: [main]
+      
 # concurrency make sure only 1 job and be ran at a time
 concurrency:
   group: testing
@@ -20,10 +26,13 @@ concurrency:
 
 env:
     file: dragon
-        
-jobs:
-    build_job:
 
+    
+# Added timeout-minutes: 1 meaning job should cancel after 1 minute 
+jobs:
+  
+    build_job:
+        timeout-minutes: 1
         name: "build job" 
         runs-on: ubuntu-latest
 
@@ -41,6 +50,7 @@ jobs:
             path: dragon.txt
 
     test_job:
+        timeout-minutes: 1
         name: "test Job"
 # the need parameter make sure this job does not run before the build-job is complete
         needs: build_job
@@ -58,6 +68,7 @@ jobs:
  
 
     deploy_job:
+        timeout-minutes: 1
         name: "deploy Job"
 # the need parameter make sure this job does not run before the test-job is complete
         needs: test_job
