@@ -1,8 +1,17 @@
 name: first workflow
-# only deploys this workflow only on main branch 
+# only deploys this workflow automatically if a pull request is made on the main branch 
+#on: 
+#    pull_request:
+#        branches: [main]
+
+# allow you to manuelly trigger jobs
 on: 
-    pull_request:
-        branches: [main]
+  workflow_dispatch:
+
+# concurrency make sure only 1 job and be ran at a time
+concurrency:
+  group: testing
+  cancel-in-progress: true
 
 #practiicing use environment variables
 # note variables created at the workflow level can be used by all jobs
