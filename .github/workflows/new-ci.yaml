@@ -3,17 +3,6 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
-        type: string
-        options:
-          - main
-          - develop
-          - feature-branch-1
-          - feature-branch-2
-
       environment:
         description: 'Environment to deploy'
         required: true
