@@ -11,6 +11,11 @@ on:
           - prod
           - qa
           - dev
+
+# concurrency make sure only 1 job and be ran at a time
+concurrency:
+    group: testing
+    cancel-in-progress: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
